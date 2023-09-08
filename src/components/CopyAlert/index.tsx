@@ -1,12 +1,9 @@
-type CopyAlertProps = {
-  handleClose: () => void
-};
+import styles from './alert.module.css';
 
-function CopyAlert({ handleClose }:CopyAlertProps) {
+function CopyAlert() {
   return (
-    <section>
-      <span>Link copied!</span>
-      <button type="button" onClick={ handleClose }>X</button>
+    <section className={ styles.alert_container }>
+      <span className={ styles.alert_message }>Link copied!</span>
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { BiFoodMenu } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import YouTube, { YouTubeProps } from 'react-youtube';
@@ -6,15 +6,15 @@ import { RecipesContext } from '../../context/recipesContext';
 import { getIngredientsAndMesures } from '../../helpers/getIngredientsAndMesures';
 import { useRecipeDetails } from '../../hooks/useRecipeDetails';
 import { useRecomendation } from '../../hooks/useRecomendation';
+import favoritedIcon from '../../images/blackHeartIcon.svg';
+import shareIcon from '../../images/shareIcon.svg';
+import favoriteIcon from '../../images/whiteHeartIcon.svg';
+import { DoneRecipesType, FavoriteType, Meal } from '../../types';
 import ActionButtons from '../ActionButtons';
 import CopyAlert from '../CopyAlert';
 import MealRecomentation from '../MealRecomendation';
 import MealCheckList from './mealCheckList';
-import { DoneRecipesType, FavoriteType, Meal } from '../../types';
-import favoritedIcon from '../../images/blackHeartIcon.svg';
-import shareIcon from '../../images/shareIcon.svg';
-import favoriteIcon from '../../images/whiteHeartIcon.svg';
-import styles from '../../pages/RecipeDetails/recipe.module.css';
+import styles from '../../pages/RecipeInProgress/inprogress.module.css';
 
 type MealDetailsType = {
   type: string
@@ -43,14 +43,13 @@ function MealInProgress({ type }:MealDetailsType) {
   const { mealRecomendation } = useRecomendation(type);
   const [copyLink, setCopyLink] = useState(false);
   const { favoriteRecipes,
+    doneRecipes,
     handleFavoriteRecipes,
     handleRemoveFavoriteRecipe,
     handleDoneRecipes,
   } = useContext(RecipesContext);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [recipeStatus, setRecipeStatus] = useState(false);
   const [checks, setChecks] = useState<Checks>({} as Checks);
-
   const opts: YouTubeProps['opts'] = {
     height: '390',
     width: '100%',
@@ -69,13 +68,12 @@ function MealInProgress({ type }:MealDetailsType) {
   const measure = getIngredientsAndMesures(recipe, 'strMeasure') as string[];
 
   const handleCopyToClipboard = () => {
+    setCopyLink(true);
     const recipeDetailsLink = `http://localhost:3000/${type}/${id}`;
     navigator.clipboard.writeText(recipeDetailsLink);
-    setCopyLink(true);
-  };
-
-  const handleCloseMessage = () => {
-    setCopyLink(false);
+    setTimeout(() => {
+      setCopyLink(false);
+    }, 1000);
   };
 
   const handleFavoriteRecipe = () => {
@@ -102,27 +100,14 @@ function MealInProgress({ type }:MealDetailsType) {
     }
   };
 
-  const checkAndUpdateRecipeStatus = useCallback(() => {
-    const inProgressRecipesJSON = localStorage.getItem('inProgressRecipes');
-    if (inProgressRecipesJSON) {
-      const inProgressRecipes = JSON.parse(inProgressRecipesJSON);
-      if (inProgressRecipes[type]
-        && inProgressRecipes[type][id as string]) {
-        setRecipeStatus(true);
-      }
-    }
-  }, [id, type]);
-
   useEffect(() => {
     const isRecipeAlreadyFavorited = favoriteRecipes
       .some((recipes) => recipes.id === meal?.idMeal);
     setIsFavorite(isRecipeAlreadyFavorited);
-    checkAndUpdateRecipeStatus();
-  }, [checkAndUpdateRecipeStatus, favoriteRecipes, id, meal?.idMeal, type]);
+  }, [favoriteRecipes, id, meal?.idMeal, type]);
 
   const handleDoneRecipe = () => {
     let recipeDone:DoneRecipesType = {} as DoneRecipesType;
-
     if (type === 'meals' && meal) {
       recipeDone = {
         id: id || '',
@@ -136,7 +121,11 @@ function MealInProgress({ type }:MealDetailsType) {
         tags: meal?.strTags ? meal?.strTags.split(',') : [],
       };
     }
-    handleDoneRecipes(recipeDone);
+    const recipeDoneCheck = doneRecipes
+      .some((alreadyDecipe) => alreadyDecipe.id === recipeDone.id);
+    if (!recipeDoneCheck) {
+      handleDoneRecipes(recipeDone);
+    }
     navigate('/done-recipes');
   };
 
@@ -150,7 +139,6 @@ function MealInProgress({ type }:MealDetailsType) {
         },
       };
       localStorage.setItem('ingredientChecks', JSON.stringify(updatedChecks));
-
       return updatedChecks;
     });
   };
@@ -206,8 +194,9 @@ function MealInProgress({ type }:MealDetailsType) {
         <h2 data-testid="recipe-title">
           {title}
         </h2>
+        {copyLink && <CopyAlert />}
+
       </section>
-      {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
       <MealCheckList
         ingredients={ ingredients }
         measures={ measure }
@@ -241,7 +230,7 @@ function MealInProgress({ type }:MealDetailsType) {
         onClick={ handleDoneRecipe }
         disabled={ !areAllIngredientsChecked() }
       >
-        {recipeStatus ? 'Continue Recipe' : 'Start Recipe'}
+        Finish Recipe
       </button>
     </section>
   );

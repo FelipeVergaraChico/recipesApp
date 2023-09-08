@@ -64,13 +64,12 @@ function MealDetails({ type }:MealDetailsType) {
   ) as string[];
 
   const handleCopyToClipboard = () => {
+    setCopyLink(true);
     const recipeDetailsLink = `http://localhost:3000${pathname}`;
     navigator.clipboard.writeText(recipeDetailsLink);
-    setCopyLink(true);
-  };
-
-  const handleCloseMessage = () => {
-    setCopyLink(false);
+    setTimeout(() => {
+      setCopyLink(false);
+    }, 1000);
   };
 
   const handleFavoriteRecipe = () => {
@@ -171,11 +170,11 @@ function MealDetails({ type }:MealDetailsType) {
         <h2 data-testid="recipe-title">
           {title}
         </h2>
+        {copyLink && <CopyAlert />}
       </section>
-      {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
       <section className={ styles.section_container }>
         <h2>Ingredients</h2>
-        <ul className={ ` ${styles.checkbox_list} ${styles.ingredient_list}` }>
+        <ul className={ styles.ingredient_list }>
           { ingredients && measure
             && ingredients.map((ingredient, index) => (
               <li

@@ -13,7 +13,7 @@ import favoritedIcon from '../../images/blackHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import favoriteIcon from '../../images/whiteHeartIcon.svg';
 
-import styles from '../../pages/RecipeDetails/recipe.module.css';
+import styles from '../../pages/RecipeInProgress/inprogress.module.css';
 import DrinkRecomendation from '../DrinkRecomendation';
 
 type MealDetailsType = {
@@ -35,6 +35,7 @@ function DrinkInProgress({ type }:MealDetailsType) {
 
   const [copyLink, setCopyLink] = useState(false);
   const { favoriteRecipes,
+    doneRecipes,
     handleFavoriteRecipes,
     handleRemoveFavoriteRecipe,
     handleDoneRecipes,
@@ -52,25 +53,22 @@ function DrinkInProgress({ type }:MealDetailsType) {
   const image = drink?.strDrinkThumb;
   const category = drink?.strAlcoholic;
   const instructions = drink?.strInstructions;
-
   const ingredients = getIngredientsAndMesures(
     recipe as Drink,
     'strIngredient',
   ) as string[];
-
   const measure = getIngredientsAndMesures(
     recipe as Drink,
     'strMeasure',
   ) as string[];
 
   const handleCopyToClipboard = () => {
+    setCopyLink(true);
     const recipeDetailsLink = `http://localhost:3000/${type}/${id}`;
     navigator.clipboard.writeText(recipeDetailsLink);
-    setCopyLink(true);
-  };
-
-  const handleCloseMessage = () => {
-    setCopyLink(false);
+    setTimeout(() => {
+      setCopyLink(false);
+    }, 1000);
   };
 
   const handleFavoriteRecipe = () => {
@@ -122,7 +120,12 @@ function DrinkInProgress({ type }:MealDetailsType) {
       };
     }
 
-    handleDoneRecipes(recipeDone);
+    const recipeDoneCheck = doneRecipes
+      .some((alreadyDecipe) => alreadyDecipe.id === recipeDone.id);
+    if (!recipeDoneCheck) {
+      handleDoneRecipes(recipeDone);
+    }
+
     navigate('/done-recipes');
   };
 
@@ -137,7 +140,6 @@ function DrinkInProgress({ type }:MealDetailsType) {
       };
 
       localStorage.setItem('ingredientChecks', JSON.stringify(updatedChecks));
-
       return updatedChecks;
     });
   };
@@ -192,9 +194,8 @@ function DrinkInProgress({ type }:MealDetailsType) {
         <h2 data-testid="recipe-title">
           {title}
         </h2>
-
+        {copyLink && <CopyAlert />}
       </section>
-      {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
       <section className={ styles.section_container }>
         <h2>Ingredients</h2>
         <ul className={ ` ${styles.checkbox_list} ${styles.ingredient_list}` }>
@@ -205,26 +206,27 @@ function DrinkInProgress({ type }:MealDetailsType) {
                 data-testid={ `${index}-ingredient-name-and-measure` }
               >
                 <label
-                  htmlFor="MealCheck"
+                  htmlFor={ ingredient }
                   data-testid={ `${index}-ingredient-step` }
                   className={ checks[id as string]?.[index]
                     ? styles.check : styles.uncheck }
                 >
                   <input
                     type="checkbox"
-                    id="MealCheck"
+                    id={ ingredient }
                     name={ ingredient }
                     className={ styles.checkbox }
                     onChange={ () => handleCheckBox(id as string, index) }
                     checked={ checks[id as string]?.[index] || false }
                   />
                   {ingredient}
+                  {' '}
                   -
+                  {' '}
                   {measure[index]}
                 </label>
               </li>
             ))}
-
         </ul>
       </section>
       <section className={ styles.instructions_container }>
@@ -243,8 +245,6 @@ function DrinkInProgress({ type }:MealDetailsType) {
         Finish Recipe
       </button>
     </section>
-
   );
 }
-
 export default DrinkInProgress;

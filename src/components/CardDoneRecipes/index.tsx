@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ActionButtons from '../ActionButtons';
 import shareIcon from '../../images/shareIcon.svg';
+import ActionButtons from '../ActionButtons';
 import CopyAlert from '../CopyAlert';
+
+import { formatDate } from '../../helpers/formatDate';
+import styles from './done-recipes-card.module.css';
 
 type CardDoneRecipesProps = {
   index: number;
@@ -23,22 +26,22 @@ function CardDoneRecipes(props: CardDoneRecipesProps) {
   const navigate = useNavigate();
 
   const handleCopyToClipboard = () => {
+    setCopyLink(true);
     const recipeDetailsLink = `http://localhost:3000/${type}s/${id}`;
     navigator.clipboard.writeText(recipeDetailsLink);
-    setCopyLink(true);
-  };
-
-  const handleCloseMessage = () => {
-    setCopyLink(false);
+    setTimeout(() => {
+      setCopyLink(false);
+    }, 1000);
   };
 
   return (
     <>
       { type === 'meal' && (
-        <section id={ id }>
+        <section id={ id } className={ styles.done_card_container }>
           <button
             type="button"
             onClick={ () => navigate(`/${type}s/${id}`) }
+            className={ styles.img_btn }
           >
             <img
               width={ 100 }
@@ -46,13 +49,14 @@ function CardDoneRecipes(props: CardDoneRecipesProps) {
               src={ image }
               alt={ name }
             />
+            {copyLink && <CopyAlert />}
           </button>
-          <section>
-            <section>
-
+          <section className={ styles.card_info_container }>
+            <section className={ styles.card_header }>
               <button
                 type="button"
                 onClick={ () => navigate(`/${type}s/${id}`) }
+                className={ styles.card_info }
               >
                 <h2 data-testid={ `${index}-horizontal-name` }>
                   { name }
@@ -70,13 +74,12 @@ function CardDoneRecipes(props: CardDoneRecipesProps) {
                 onClick={ handleCopyToClipboard }
               />
             </section>
-            {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
             <p data-testid={ `${index}-horizontal-done-date` }>
               Done in:
               {' '}
-              { doneDate }
+              {formatDate(doneDate) }
             </p>
-            <section>
+            <section className={ styles.tags_container }>
               {tags && tags.map((tag) => (
                 <p
                   key={ tag }
@@ -88,25 +91,31 @@ function CardDoneRecipes(props: CardDoneRecipesProps) {
             </section>
 
           </section>
-
         </section>
       )}
       { type === 'drink' && (
-        <section>
-          <button type="button" onClick={ () => navigate(`/${type}s/${id}`) }>
+        <section id={ id } className={ styles.done_card_container }>
+          <button
+            type="button"
+            onClick={ () => navigate(`/${type}s/${id}`) }
+            className={ styles.img_btn }
+          >
             <img
               width={ 100 }
               data-testid={ `${index}-horizontal-image` }
               src={ image }
               alt={ name }
             />
+            {copyLink && <CopyAlert />}
+
           </button>
-          <section>
-            <section>
+          <section className={ styles.card_info_container }>
+            <section className={ styles.card_header }>
 
               <button
                 onClick={ () => navigate(`/${type}s/${id}`) }
                 type="button"
+                className={ styles.card_info }
               >
 
                 <h2
@@ -117,7 +126,7 @@ function CardDoneRecipes(props: CardDoneRecipesProps) {
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >
-                  {`${nationality} - ${alcoholicOrNot}`}
+                  {alcoholicOrNot}
                 </p>
               </button>
               <ActionButtons
@@ -127,13 +136,13 @@ function CardDoneRecipes(props: CardDoneRecipesProps) {
                 onClick={ handleCopyToClipboard }
               />
             </section>
-            {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
             <p data-testid={ `${index}-horizontal-done-date` }>
               Done in:
               {' '}
-              { doneDate }
+              {formatDate(doneDate) }
+
             </p>
-            <section>
+            <section className={ styles.tags_container }>
               {tags.map((tag) => (
                 <p
                   key={ tag }

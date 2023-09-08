@@ -1,11 +1,13 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RecipesContext } from '../../context/recipesContext';
 import shareIcon from '../../images/shareIcon.svg';
 import ActionButtons from '../ActionButtons';
 import CopyAlert from '../CopyAlert';
 
-import { RecipesContext } from '../../context/recipesContext';
 import favoritedIcon from '../../images/blackHeartIcon.svg';
+
+import styles from './favorite-recipes-card.module.css';
 
 type CardFavoriteRecipesProps = {
   index: number;
@@ -33,22 +35,22 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
     }
   };
   const handleCopyToClipboard = () => {
+    setCopyLink(true);
     const recipeDetailsLink = `http://localhost:3000/${type}s/${id}`;
     navigator.clipboard.writeText(recipeDetailsLink);
-    setCopyLink(true);
-  };
-
-  const handleCloseMessage = () => {
-    setCopyLink(false);
+    setTimeout(() => {
+      setCopyLink(false);
+    }, 1000);
   };
 
   return (
     <>
       { type === 'meal' && (
-        <section id={ id }>
+        <section id={ id } className={ styles.favorite_card_container }>
           <button
             type="button"
             onClick={ () => navigate(`/${type}s/${id}`) }
+            className={ styles.img_btn }
           >
             <img
               width={ 100 }
@@ -57,12 +59,18 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
               alt={ name }
             />
           </button>
-          <section>
-            <section>
+          {copyLink && <CopyAlert />}
+
+          <section
+            className={ styles.card_info_container }
+          >
+            <section className={ styles.card_header }>
 
               <button
                 type="button"
                 onClick={ () => navigate(`/${type}s/${id}`) }
+                className={ styles.card_info }
+
               >
                 <h2 data-testid={ `${index}-horizontal-name` }>
                   { name }
@@ -73,6 +81,8 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
                   {`${nationality} - ${category}`}
                 </p>
               </button>
+            </section>
+            <section className={ styles.actions_contaiener }>
               <ActionButtons
                 icon={ shareIcon }
                 alt="share"
@@ -86,15 +96,19 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
                 onClick={ handleFavoriteRecipe }
               />
             </section>
-            {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
-
           </section>
 
         </section>
       )}
       { type === 'drink' && (
-        <section>
-          <button type="button" onClick={ () => navigate(`/${type}s/${id}`) }>
+        <section
+          className={ styles.favorite_card_container }
+        >
+          <button
+            type="button"
+            onClick={ () => navigate(`/${type}s/${id}`) }
+            className={ styles.img_btn }
+          >
             <img
               width={ 100 }
               data-testid={ `${index}-horizontal-image` }
@@ -102,14 +116,16 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
               alt={ name }
             />
           </button>
-          <section>
-            <section>
-
+          {copyLink && <CopyAlert />}
+          <section
+            className={ styles.card_info_container }
+          >
+            <section className={ styles.card_header }>
               <button
                 onClick={ () => navigate(`/${type}s/${id}`) }
                 type="button"
+                className={ styles.card_info }
               >
-
                 <h2
                   data-testid={ `${index}-horizontal-name` }
                 >
@@ -121,6 +137,8 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
                   {`${nationality} - ${alcoholicOrNot}`}
                 </p>
               </button>
+            </section>
+            <section className={ styles.actions_contaiener }>
               <ActionButtons
                 icon={ shareIcon }
                 alt="share"
@@ -132,11 +150,8 @@ function CardFavoriteRecipes(props: CardFavoriteRecipesProps) {
                 alt="share"
                 testId={ `${index}-horizontal-favorite-btn` }
                 onClick={ handleFavoriteRecipe }
-
               />
             </section>
-            {copyLink && <CopyAlert handleClose={ handleCloseMessage } />}
-
           </section>
 
         </section>
