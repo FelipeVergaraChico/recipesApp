@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import drinkIcon from '../../images/drinkIcon.svg';
-import mealIcon from '../../images/mealIcon.svg';
+import drinkIcon from '../../../public/images/drinkIcon.svg';
+import mealIcon from '../../../public/images/mealIcon.svg';
 
 import styles from './footer.module.css';
 

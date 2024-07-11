@@ -24,16 +24,16 @@ type IconKey =
 
 function ButtonFilters({ category, handleClick }:ButtonFiltersProps) {
   const icons:IconPaths = {
-    'Ordinary Drink': '/src/images/OrdinaryDrink.svg',
-    Cocktail: '/src/images/cocktail.svg',
-    Shake: '/src/images/shake.svg',
-    'Other / Unknown': '/src/images/other.svg',
-    Cocoa: '/src/images/cocoa.svg',
-    Beef: '/src/images/beefCategory.svg',
-    Breakfast: '/src/images/breakfastCategory.svg',
-    Chicken: '/src/images/chickenCategory.svg',
-    Dessert: '/src/images/dessertCategory.svg',
-    Goat: '/src/images/goatCategory.svg',
+    'Ordinary Drink': '/images/OrdinaryDrink.svg',
+    Cocktail: '/images/cocktail.svg',
+    Shake: '/images/shake.svg',
+    'Other / Unknown': '/images/other.svg',
+    Cocoa: '/images/cocoa.svg',
+    Beef: '/images/beefCategory.svg',
+    Breakfast: '/images/breakfastCategory.svg',
+    Chicken: '/images/chickenCategory.svg',
+    Dessert: '/images/dessertCategory.svg',
+    Goat: '/images/goatCategory.svg',
   };
 
   const icon = icons[category.strCategory as keyof IconPaths];

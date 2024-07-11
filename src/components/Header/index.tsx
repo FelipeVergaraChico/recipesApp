@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
+import profileIcon from '../../../public/images/profileIcon.svg';
+import searchIcon from '../../../public/images/searchIcon.svg';
 import { PathNames } from '../../types';
 
 import styles from './header.module.css';
@@ -14,15 +14,15 @@ function Header() {
   const path = location.pathname.replace('/', '');
 
   const pageInfo: PathNames = {
-    meals: { title: 'Meals', icon: '/src/images/mealsPageicon.svg' },
-    drinks: { title: 'Drinks', icon: '/src/images/drinksPageIcon.svg' },
-    profile: { title: 'Profile', icon: '/src/images/profilePageIcon.svg' },
+    meals: { title: 'Meals', icon: '/images/mealsPageicon.svg' },
+    drinks: { title: 'Drinks', icon: '/images/drinksPageIcon.svg' },
+    profile: { title: 'Profile', icon: '/images/profilePageIcon.svg' },
     'done-recipes': {
       title: 'Done Recipes',
-      icon: '/src/images/doneRecipesPageIcon.svg' },
+      icon: '/images/doneRecipesPageIcon.svg' },
     'favorite-recipes': {
       title: 'Favorite Recipes',
-      icon: '/src/images/favoritesPageIcon.svg' },
+      icon: '//images/favoritesPageIcon.svg' },
   };
 
   const pageTitle = pageInfo[path as keyof PathNames].title;
@@ -36,7 +36,7 @@ function Header() {
   return (
     <header className={ styles.header }>
       <nav className={ styles.navbar }>
-        <img src="/src/images/logo.svg" alt="logo" />
+        <img src="/images/logo.svg" alt="logo" />
 
         <section className={ styles.nav_actions }>
           {!hideSearchIcon && (

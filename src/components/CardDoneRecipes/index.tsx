@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import shareIcon from '../../images/shareIcon.svg';
+import shareIcon from '../../../public/images/shareIcon.svg';
 import ActionButtons from '../ActionButtons';
 import CopyAlert from '../CopyAlert';
 

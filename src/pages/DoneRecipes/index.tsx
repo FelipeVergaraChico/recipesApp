@@ -2,9 +2,9 @@ import { useContext, useState } from 'react';
 import CardDoneRecipes from '../../components/CardDoneRecipes';
 import { RecipesContext } from '../../context/recipesContext';
 
-import allRecipesIcon from '../../images/AllRecipesIcon.svg';
-import drinkIcon from '../../images/AllDrinks.svg';
-import foodIcon from '../../images/AllMealsCategories.svg';
+import allRecipesIcon from '../../../public/images/AllRecipesIcon.svg';
+import drinkIcon from '../../../public/images/AllDrinks.svg';
+import foodIcon from '../../../public/images/AllMealsCategories.svg';
 
 import styles from './done-recipes.module.css';
 

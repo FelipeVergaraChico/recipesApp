@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './Profile.module.css';
-import doneIcon from '../../images/doneRecipesPageIcon.svg';
-import favoriteIcon from '../../images/favoritesPageIcon.svg';
-import logoutIcon from '../../images/Logout.svg';
+import doneIcon from '../../../public/images/doneRecipesPageIcon.svg';
+import favoriteIcon from '../../../public/images/favoritesPageIcon.svg';
+import logoutIcon from '../../../public/images/Logout.svg';
 
 function Profile() {
   const navigate = useNavigate();

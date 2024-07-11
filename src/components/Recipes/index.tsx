@@ -3,8 +3,8 @@ import { RecipesContext } from '../../context/recipesContext';
 import { ApiUrlType, FiltersReturn } from '../../types';
 import ButtonFilters from '../ButtonFilters';
 
-import allDrinksIcon from '../../images/AllDrinks.svg';
-import AllMealsIcon from '../../images/AllMealsCategories.svg';
+import allDrinksIcon from '../../../public/images/AllDrinks.svg';
+import AllMealsIcon from '../../../public/images/AllMealsCategories.svg';
 
 import styles from './recipes.module.css';
 

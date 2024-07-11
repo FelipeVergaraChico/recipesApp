@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './login.module.css';
-import logoApp from '../../images/logoApp.svg';
-import tomatoImg from '../../images/tomato.svg';
+import logoApp from '../../../public/images/logoApp.svg';
+import tomatoImg from '../../../public/images/tomato.svg';
 
 const initialState = {
   email: '',

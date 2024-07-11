@@ -10,9 +10,9 @@ import { Drink, FavoriteType, Meal } from '../../types';
 import ActionButtons from '../ActionButtons';
 import CopyAlert from '../CopyAlert';
 
-import favoritedIcon from '../../images/blackHeartIcon.svg';
-import shareIcon from '../../images/shareIcon.svg';
-import favoriteIcon from '../../images/whiteHeartIcon.svg';
+import favoritedIcon from '../../../public/images/blackHeartIcon.svg';
+import shareIcon from '../../../public/images/shareIcon.svg';
+import favoriteIcon from '../../../public/images/whiteHeartIcon.svg';
 
 import styles from '../../pages/RecipeDetails/recipe.module.css';
 import MealRecomentation from '../MealRecomendation';

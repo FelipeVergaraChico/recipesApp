@@ -2,9 +2,9 @@ import { useContext, useState } from 'react';
 import CardFavoriteRecipes from '../../components/CardFavoriteRecipes';
 import { RecipesContext } from '../../context/recipesContext';
 
-import drinkIcon from '../../images/AllDrinks.svg';
-import foodIcon from '../../images/AllMealsCategories.svg';
-import allRecipesIcon from '../../images/AllRecipesIcon.svg';
+import drinkIcon from '../../../public/images/AllDrinks.svg';
+import foodIcon from '../../../public/images/AllMealsCategories.svg';
+import allRecipesIcon from '../../../public/images/AllRecipesIcon.svg';
 
 import styles from './favorite-recipes.module.css';
 

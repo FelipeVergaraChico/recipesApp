@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RecipesContext } from '../../context/recipesContext';
-import shareIcon from '../../images/shareIcon.svg';
+import shareIcon from '../../../public/images/shareIcon.svg';
 import ActionButtons from '../ActionButtons';
 import CopyAlert from '../CopyAlert';
 
-import favoritedIcon from '../../images/blackHeartIcon.svg';
+import favoritedIcon from '../../../public/images/blackHeartIcon.svg';
 
 import styles from './favorite-recipes-card.module.css';
 
