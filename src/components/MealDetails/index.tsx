@@ -65,7 +65,7 @@ function MealDetails({ type }:MealDetailsType) {
 
   const handleCopyToClipboard = () => {
     setCopyLink(true);
-    const recipeDetailsLink = `http://localhost:3000${pathname}`;
+    const recipeDetailsLink = `https://recipes-app-psi-sandy.vercel.app${pathname}`;
     navigator.clipboard.writeText(recipeDetailsLink);
     setTimeout(() => {
       setCopyLink(false);
